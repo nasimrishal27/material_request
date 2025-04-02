@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+    <record id="module_category_material_request" model="ir.module.category">
+        <field name="name">Material Request</field>
+        <field name="sequence">1</field>
+    </record>
+    <record model="res.groups" id="material_request_group_user">
+        <field name="name">Requisition User</field>
+        <field name="category_id" ref="module_category_material_request"/>
+    </record>
+    <record model="res.groups" id="material_request_group_manager">
+        <field name="name">Requisition Manager</field>
+        <field name="category_id" ref="module_category_material_request"/>
+    </record>
+    <record model="res.groups" id="material_request_group_administrator">
+        <field name="name">Requisition Administrator</field>
+        <field name="category_id" ref="module_category_material_request"/>
+    </record>
+</odoo>
