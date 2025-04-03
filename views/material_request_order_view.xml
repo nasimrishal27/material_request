@@ -11,7 +11,7 @@
         <field name="arch" type="xml">
             <list string="Material Request Order">
                 <field name="name"/>
-                <field name="partner_id"/>
+                <field name="user_id"/>
                 <field name="state"/>
                 <field name="currency_id" column_invisible="1"/>
             </list>
@@ -27,15 +27,29 @@
                             type="object" help="Move to Draft state"/>
                     <button name="action_confirm" class="oe_highlight" invisible="state != 'draft'"
                             string="Confirm" type="object" help="Move to Confirm state"/>
-                    <button name="action_confirm" class="oe_highlight" invisible="state in ('draft', 'confirm', 'to-confirm')"
-                            string="Approve" type="object" help="Manager's Approval" groups="material_request.material_request_group_manager"/>
+                    <button name="action_confirm" class="oe_highlight"
+                            invisible="state in ('draft', 'confirm', 'to-confirm')"
+                            string="Approve" type="object" help="Manager's Approval"
+                            groups="material_request.material_request_group_manager"/>
                     <button name="action_confirm" class="oe_highlight" invisible="state in ('draft', 'confirm')"
-                            string="Approve" type="object" help="Administration Approval" groups="material_request.material_request_group_administrator"/>
+                            string="Approve" type="object" help="Administration Approval"
+                            groups="material_request.material_request_group_administrator"/>
                     <button name="action_reject" class="oe_highlight" invisible="state == 'confirm'"
-                            string="Reject" type="object" help="Administration Approval" groups="material_request.material_request_group_administrator"/>
+                            string="Reject" type="object" help="Administration Approval"
+                            groups="material_request.material_request_group_administrator"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirm,reject"/>
                 </header>
                 <sheet>
+                    <div name="button_box" position="inside">
+                        <button name="action_open_purchase_order" type="object" class="oe_stat_button"
+                                icon="fa-credit-card" invisible="state != 'confirm'">
+                            <field string="Purchase Order" name="purchase_order_count" widget="statinfo"/>
+                        </button>
+                        <button name="action_open_internal_transfer" type="object" class="oe_stat_button"
+                                icon="fa-credit-card" invisible="state != 'confirm'">
+                            <field string="Internal Transfer" name="internal_transfer_count" widget="statinfo"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1>
                             <field name="name" readonly="1"/>
@@ -43,7 +57,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="partner_id" readonly="1"/>
+                            <field name="user_id" readonly="1"/>
                             <field name="company_id" readonly="1"/>
                         </group>
                         <group>
@@ -53,7 +67,8 @@
                     </group>
                     <notebook>
                         <page string="Order Lines" name="order_lines">
-                            <field name="order_line_ids" widget="sol_o2m" mode="list,kanban" readonly="state != 'draft'">
+                            <field name="order_line_ids" widget="sol_o2m" mode="list,kanban"
+                                   readonly="state != 'draft'">
                                 <list string="Material Request Order Lines" editable="bottom" limit="200">
                                     <control>
                                         <create name="add_product_control" string="Add a product"/>
@@ -62,6 +77,7 @@
                                     <field name="quantity"/>
                                     <field name="product_type"/>
                                     <field name="vendor_ids" widget="many2many_tags" readonly="product_type=='it'"/>
+                                    <field name="location_id" readonly="product_type=='po'"/>
                                 </list>
                             </field>
                         </page>

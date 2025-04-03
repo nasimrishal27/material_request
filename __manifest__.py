@@ -2,7 +2,7 @@
 {
     'name': "Material Request Management",
     'version': '1.0',
-    'depends': ['base', 'mail', 'product'],
+    'depends': ['base', 'mail', 'purchase'],
     'sequence': 1,
     'author': "Suni",
     'category': 'All',
